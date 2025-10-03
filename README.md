@@ -3,7 +3,7 @@
 
 ##  1. Clone the repository
 
-git clone https://github.com/tic-tac-toe-frk24s/frk24s-components.git
+git clone https://github.com/gomoku-org/gomoku-component.git
 
 Detta repo innehåller våra gemensamma komponenter byggda i React och dokumenterade med Storybook.
 

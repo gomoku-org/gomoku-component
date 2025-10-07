@@ -2,7 +2,7 @@
 const path = require("path");
 
 module.exports = {
-  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  stories: ["../src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-docs",

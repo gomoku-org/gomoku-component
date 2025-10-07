@@ -1,1 +1,1 @@
-export { Result } from "./components/Result/Result";
+export { default } from "./components/Result/Result";

@@ -5,7 +5,7 @@ const Header = () => {
 
  return(
 
-	<>Welcome to Tic-Tac-Toe!</>
+	<>Welcome to Gomoku!</>
 
  );
 

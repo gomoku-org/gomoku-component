@@ -1,0 +1,12 @@
+{
+  "name": "gomoku-component",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "sideEffects": ["*.css"],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}

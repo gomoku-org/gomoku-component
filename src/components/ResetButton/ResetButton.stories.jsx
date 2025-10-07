@@ -1,9 +1,13 @@
-import ResetButton from './ResetButton';
+import ResetButton from "./ResetButton";
 
 export default {
-  title: 'Components/ResetButton',
+  title: "Components/ResetButton",
   component: ResetButton,
 };
 
-export const Default = { args: { label: "Återställ" } };
-export const MedText = { args: { label: "Starta om spelet" } };
+export const Default = {
+  args: {
+    label: "Starta Om",
+    onClick: () => alert("Reset!"),
+  },
+};

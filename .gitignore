@@ -85,3 +85,4 @@ node_modules/
 .idea/
 dist/
 coverage/
+NUL

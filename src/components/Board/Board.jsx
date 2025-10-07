@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGame } from "../../context/GameContext";
-import { useApi } from "../../api/useApi";
+import { useGame } from "gomoku-app/context";
+import { useApi } from "gomoku-app/api";
 import ResetButton from "../ResetButton/ResetButton";
 import styles from "./Board.module.css";
 

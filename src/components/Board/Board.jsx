@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGame } from "../../context/GameContext";
-import { useApi } from "../../api/useApi";
+import { useGame } from "gomoku-app/context";
+import { useApi } from "gomoku-app/api";
 import ResetButton from "../ResetButton/ResetButton";
-import Result from "../Result/Result";                // <— lägg till
 import styles from "./Board.module.css";
 
 export default function Board() {
@@ -13,6 +12,9 @@ export default function Board() {
 
   const [game, setGame] = useState(null);
   const [sending, setSending] = useState(false);
+  const [currentPlayer, setCurrentPlayer] = useState(
+    players?.player1?.piece === "red" ? 1 : 2
+  );
 
   useEffect(() => {
     let alive = true;
@@ -23,18 +25,18 @@ export default function Board() {
     (async () => {
       const g = await getGameById(players.gameId);
       if (!alive) return;
-      setGame(g || null);
+      setGame(g);
+      if (g?.player != null) setCurrentPlayer(g.player);
     })();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, [players, navigate, getGameById]);
 
   const board = game?.board || {};
   const tiles = board?.tiles || [];
-  const rows  = board?.rows ?? (tiles[0]?.length ?? 0);      // 0-index
-  const cols  = board?.cols ?? (tiles.length ?? 0);          // 0-index
-
-  // Nästa spelare beräknas från round (0 => P1, 1 => P2, 2 => P1, ...)
-  const nextPlayer = game ? ((game.round % 2 === 0) ? 1 : 2) : 1;
+  const rows = board?.rows ?? (tiles[1]?.length ? tiles[1].length - 1 : 0);
+  const cols = board?.cols ?? (tiles.length ? tiles.length - 1 : 0);
 
   const cellSize = useMemo(() => {
     const maxW = Math.min(window.innerWidth, 900) - 80;
@@ -48,23 +50,27 @@ export default function Board() {
   const inBounds = (r, c) => r >= 0 && c >= 0 && r < rows && c < cols;
 
   const getCell = (r, c) => {
-    // 0-indexerad åtkomst
-    return tiles?.[c]?.[r] ?? 0;          // OBS: tiles[col][row]
+    const colIdx = c + 1;
+    const rowIdx = r + 1;
+    return tiles?.[colIdx]?.[rowIdx] ?? 0;
   };
 
   const handleCellClick = async (r, c) => {
     if (sending) return;
     if (!inBounds(r, c)) return;
-    if (game?.isOver) return;
     if (getCell(r, c) !== 0) return;
+    if (game?.player && game.player !== currentPlayer) return;
 
     setSending(true);
-    const playerId = nextPlayer === 1 ? players.player1.id : players.player2.id;
+    const playerId = currentPlayer === 1 ? players.player1.id : players.player2.id;
 
     try {
-      // skicka 0-index till backend
-      const after = await playMove(players.gameId, playerId, c, r);
+      const colParam = c + 1;
+      const rowParam = r + 1;
+      await playMove(players.gameId, playerId, colParam, rowParam);
+      const after = await getGameById(players.gameId);
       setGame(after ?? null);
+      if (after?.player != null) setCurrentPlayer(after.player);
     } catch (e) {
       console.error("Kunde inte spela draget:", e);
       alert(`Draget misslyckades.\n${e?.message || ""}`);
@@ -87,9 +93,7 @@ export default function Board() {
       {!game && <p>Laddar spel…</p>}
 
       {game && (!game?.player1 || !game?.player2) && (
-        <p style={{ marginTop: 80 }}>
-          Spelet väntar på att båda spelarna ska gå med…
-        </p>
+        <p style={{ marginTop: 80 }}>Spelet väntar på att båda spelarna ska gå med…</p>
       )}
 
       {game?.player1 && game?.player2 && (
@@ -100,7 +104,7 @@ export default function Board() {
                 {players.player1.piece === "red" ? "🔴" : "🟡"}
               </span>
               <span>{players.player1.name}</span>
-              {nextPlayer === 1 && !game.isOver && <span title="Tur"> ⏳</span>}
+              {currentPlayer === 1 && <span title="Tur"> ⏳</span>}
             </div>
             <span className={styles.vs}>vs</span>
             <div className={styles.playerCard}>
@@ -108,7 +112,7 @@ export default function Board() {
                 {players.player2.piece === "red" ? "🔴" : "🟡"}
               </span>
               <span>{players.player2.name}</span>
-              {nextPlayer === 2 && !game.isOver && <span title="Tur"> ⏳</span>}
+              {currentPlayer === 2 && <span title="Tur"> ⏳</span>}
             </div>
           </div>
 
@@ -146,15 +150,6 @@ export default function Board() {
           <div className={styles.resetWrapper}>
             <ResetButton label="Starta Om" onClick={handleReset} />
           </div>
-
-          {/* Visa vinnare/tie */}
-          {game?.isOver && (
-            <Result
-              winner={game?.winner}
-              isGameOver={game?.isOver}
-              onPlayAgain={() => navigate("/setup")}
-            />
-          )}
         </>
       )}
     </div>

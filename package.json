@@ -38,5 +38,8 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "gomoku-component": "github:gomoku-org/gomoku-component#<SHA>"
   }
 }

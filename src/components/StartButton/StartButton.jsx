@@ -1,12 +1,18 @@
-import React from 'react'
+import React from "react";
+import PropTypes from "prop-types";
+import styles from "./StartButton.module.css"; 
 
-const StartButton = ({StartButtonText = 'Starta spelet'}) => {
-	return (
-		<div>
-			<button>
-		{StartButtonText}
-			</button>
-		</div>
-	)}
+export default function StartButton({ onStart, StartButtonText = "Starta spelet" }) {
+  return (
+    <div>
+      <button className={styles.startButton} onClick={onStart}>
+        {StartButtonText}
+      </button>
+    </div>
+  );
+}
 
-export default StartButton
+StartButton.propTypes = {
+  onStart: PropTypes.func,
+  StartButtonText: PropTypes.string,
+};

@@ -10,14 +10,14 @@ export default function ChoosePiece({
   lockOnFirstChoice = false,
   disableWhite = false,     
   disableBlack = false,     
-  whiteLabel = "Vit",
-  blackLabel = "Svart",
+  redLabel = "röd",
+  yellowLabel = "gul",
 }) {
   const handleClick = (color) => {
     if (disabled) return;
     if (lockOnFirstChoice && value) return;   
-    if (color === "white" && disableWhite) return;
-    if (color === "black" && disableBlack) return;
+    if (color === "red" && disableWhite) return;
+    if (color === "yellow" && disableBlack) return;
     onChange?.(color);
   };
 
@@ -30,13 +30,13 @@ export default function ChoosePiece({
     <div className={styles.container} style={container}>
       <button
         type="button"
-        className={`${styles.btn} ${value === "white" ? styles.active : ""}`}
-        style={{ ...btn, ...(value === "white" ? btnActive : {}) }}
-        aria-pressed={value === "white"}
-        onClick={() => handleClick("white")}
+        className={`${styles.btn} ${value === "red" ? styles.active : ""}`}
+        style={{ ...btn, ...(value === "red" ? btnActive : {}) }}
+        aria-pressed={value === "red"}
+        onClick={() => handleClick("red")}
         disabled={disabledWhiteFinal}
       >
-        ⚪ {whiteLabel}
+        🔴 {redLabel}
       </button>
 
       <button
@@ -47,14 +47,14 @@ export default function ChoosePiece({
         onClick={() => handleClick("black")}
         disabled={disabledBlackFinal}
       >
-        ⚫ {blackLabel}
+        🟡 {yellowLabel}
       </button>
     </div>
   );
 }
 
 ChoosePiece.propTypes = {
-  value: PropTypes.oneOf(["white", "black", null]),
+  value: PropTypes.oneOf(["red", "yellow", null]),
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   lockOnFirstChoice: PropTypes.bool,  

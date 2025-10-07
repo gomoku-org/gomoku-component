@@ -15,7 +15,7 @@ export const BothPlayers = () => {
       <div>
         <h3>Spelare 1</h3>
         <ChoosePiece value={p1} onChange={setP1} lockOnFirstChoice />
-        {p1 && <p style={{ marginTop: "0.5rem" }}>Du har valt {p1 === "white" ? "vit" : "svart"} pjäs</p>}
+        {p1 && <p style={{ marginTop: "0.5rem" }}>Du har valt {p1 === "red" ? "röd" : "gul"} pjäs</p>}
       </div>
 
       <div>
@@ -23,10 +23,10 @@ export const BothPlayers = () => {
         <ChoosePiece
           value={p2}
           onChange={setP2}
-          disableWhite={p1 === "white"}
-          disableBlack={p1 === "black"}
+          disableWhite={p1 === "red"}
+          disableBlack={p1 === "yellow"}
         />
-        {p2 && <p style={{ marginTop: "0.5rem" }}> Du har valt {p2 === "white" ? "vit" : "svart"} pjäs</p>}
+        {p2 && <p style={{ marginTop: "0.5rem" }}> Du har valt {p2 === "red" ? "röd" : "gul"} pjäs</p>}
       </div>
     </div>
   );

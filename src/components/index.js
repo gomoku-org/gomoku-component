@@ -5,4 +5,4 @@ export { default as Result }      from "./components/Result/Result.jsx";
 export { default as Header }      from "./components/Header/Header.jsx";
 export { default as InputField }  from "./components/InputField/InputField.jsx";
 export { default as ChoosePiece } from "./components/ChoosePiece/ChoosePiece.jsx";
-export { default as Regler } from "./components/ReglerButton/ReglerButton.jsx";
+export { default as Regler } from "./components/Regler/Regler.jsx";

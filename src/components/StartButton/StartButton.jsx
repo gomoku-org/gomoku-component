@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+import * as PT from "prop-types";
 import styles from "./StartButton.module.css"; 
 
+const PropTypes = PT.default || PT;
 export default function StartButton({ onStart, StartButtonText = "Starta spelet" }) {
   return (
     <div>

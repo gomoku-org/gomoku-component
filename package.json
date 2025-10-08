@@ -21,7 +21,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "npm run build" 
   },
   "peerDependencies": {
     "prop-types": "^15.8.1",
